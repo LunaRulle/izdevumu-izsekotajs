@@ -43,6 +43,8 @@ def user_input(validation):
             except ValueError:
                 print("Lūdzu ierakstiet skaitli")
                 continue
+        elif validation == "bool":
+            user_input = input().lower().startswith("y")
         return user_input
 
 while True:
