@@ -1,4 +1,16 @@
 
+from storage import load_expenses, save_expenses
+
+CATEGORIES = [ 
+    "Ēdiens", 
+    "Transports", 
+    "Izklaide", 
+    "Komunālie maksājumi", 
+    "Veselība", 
+    "Iepirkšanās", 
+    "Cits", 
+] 
+
 def add_izdevums(name,index):
     if name == True:
         print(f"{index}) Pievienot Izdevumu")
@@ -48,6 +60,13 @@ def user_input(validation):
         return user_input
 
 def main():
+    if load_expenses() == False:
+        print(f"Nav atrasts expenses.json, vai vēlies uztaisīt jaunu? (y/n)", end=" ")
+        answer = user_input("bool")
+        if answer == True:
+            save_expenses([])
+        if answer == False:
+            exit()
     while True:
         print(f"Izvēlaties opciju (1-{len(options)})")
         print_options()
