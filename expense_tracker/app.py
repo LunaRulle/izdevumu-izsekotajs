@@ -1,4 +1,4 @@
-
+from datetime import date, datetime
 from storage import load_expenses, save_expenses
 
 CATEGORIES = [ 
@@ -57,6 +57,12 @@ def user_input(validation):
                 continue
         elif validation == "bool":
             user_input = input().lower().startswith("y")
+        elif validation == "time":
+            try:
+                user_input = datetime.strptime(input(), "%Y-%m-%d")
+            except ValueError:
+                print("Tas nav pareiz laika formāts, lūdzu rasktiet YYYY-MM-DD formātā")
+                continue
         return user_input
 
 def main():
@@ -71,8 +77,8 @@ def main():
         print(f"Izvēlaties opciju (1-{len(options)})")
         print_options()
         try:
-            user_choice = int(user_input("int"))
-            options[user_choice - 1](False,False)
+            user_choice = user_input("int")
+            options[user_choice - 1](False,False) # type: ignore
         except IndexError:
             print("Šī nav opcija")
             continue
