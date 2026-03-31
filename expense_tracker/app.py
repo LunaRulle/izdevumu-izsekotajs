@@ -47,14 +47,16 @@ def user_input(validation):
             user_input = input().lower().startswith("y")
         return user_input
 
-while True:
-    print(f"Izvēlaties opciju (1-{len(options)})")
-    print_options()
-    try:
-        user_choice = int(user_input("int"))
-        options[user_choice - 1](False,False)
-    except IndexError:
-        print("Šī nav opcija")
-        continue
+def main():
+    while True:
+        print(f"Izvēlaties opciju (1-{len(options)})")
+        print_options()
+        try:
+            user_choice = int(user_input("int"))
+            options[user_choice - 1](False,False)
+        except IndexError:
+            print("Šī nav opcija")
+            continue
 
-
+if __name__ == "__main__":
+    main()
