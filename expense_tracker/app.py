@@ -50,7 +50,7 @@ def add_izdevums(name,index):
         print("Summa: > ", end="")
         EXPENSES["sum"] = user_input("float")# type: ignore
 
-        print(f" {EXPENSES["date"]} | {EXPENSES["category"]} | {EXPENSES["comment"]} | {EXPENSES["sum"]} ") # type: ignore
+        print(f" {EXPENSES["date"]} | {EXPENSES["category"]} | {EXPENSES["comment"]} | {EXPENSES["sum"]:8.2f}€ ") # type: ignore
 
         print("Vai vēlies saglabāt datus? (y/n) > ", end="")
         answer = user_input("bool")
@@ -64,7 +64,11 @@ def print_izdevumi(name,index):
         print(f"{index}) Parādīt izdevumus")
         return
     else:
-        print("izdevums parādīts ")
+        print(f"{"Datums":<12}{"Kategorija":<15} {"Apraksts"} {"Summa":>10} ")
+        print("-" * 50)
+        expenses = load_expenses()
+        for exp in expenses: #type: ignore
+            print(f"{exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
 
 def end_session(name,index):
     if name == True:
