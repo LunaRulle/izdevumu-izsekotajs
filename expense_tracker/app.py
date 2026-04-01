@@ -10,21 +10,26 @@ CATEGORIES = [
     "Iepirkšanās", 
     "Cits", 
 ] 
+
 TODAY = date.today()
+
 EXPENSES = {
     "date": "",
     "category": "",
     "comment": "",
     "sum": ""
 }
+
 def add_izdevums(name,index):
     if name == True:
         print(f"{index}) Pievienot Izdevumu")
         return
+
     else:
         print(f"Datums (YYYY-MM-DD) {TODAY} > ", end="")
         EXPENSES["date"] = user_input("time")# type: ignore
         print("Kategorija:")
+
         for index, item in enumerate(CATEGORIES):
             print(f"{index + 1}) {item}")
 
@@ -38,11 +43,15 @@ def add_izdevums(name,index):
                 continue
             else:
                 break
+
         print("Komentārs: > ", end="")
         EXPENSES["comment"] = user_input("no")# type: ignore
+        
         print("Summa: > ", end="")
         EXPENSES["sum"] = user_input("float")# type: ignore
+
         print(f" {EXPENSES["date"]} | {EXPENSES["category"]} | {EXPENSES["comment"]} | {EXPENSES["sum"]} ") # type: ignore
+
         print("Vai vēlies saglabāt datus? (y/n) > ", end="")
         answer = user_input("bool")
         if answer == True:
@@ -56,6 +65,7 @@ def print_izdevumi(name,index):
         return
     else:
         print("izdevums parādīts ")
+
 def end_session(name,index):
     if name == True:
         print(f"{index}) Iziet nosaukums")
@@ -73,22 +83,27 @@ def print_options():
 def user_input(validation):
     while True:
         user_input = "" 
+
         if validation == "no":
             user_input = input()
+
         elif validation == "int":
             try:
                 user_input = int(input())
             except ValueError:
                 print("Lūdzu ierakstiet vesalu skaitli")
                 continue
+
         elif validation == "float":
             try:
                 user_input = float(input())
             except ValueError:
                 print("Lūdzu ierakstiet skaitli")
                 continue
+
         elif validation == "bool":
             user_input = input().lower().startswith("y")
+
         elif validation == "time":
             try:
                 user_input = datetime.strptime(input(), "%Y-%m-%d")
@@ -96,6 +111,7 @@ def user_input(validation):
             except ValueError:
                 print("Tas nav pareiz laika formāts, lūdzu rasktiet YYYY-MM-DD formātā")
                 continue
+
         return user_input
 
 def main():
@@ -106,9 +122,10 @@ def main():
             save_expenses([])
         if answer == False:
             exit()
+
     while True:
-        print(f"Izvēlaties opciju (1-{len(options)})")
         print_options()
+        print(f"Izvēlaties opciju (1-{len(options)}): > ", end="")
         try:
             user_choice = user_input("int")
             options[user_choice - 1](False,False) # type: ignore
