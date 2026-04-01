@@ -1,6 +1,5 @@
 import json
 import os
-# from app import user_input
 
 EXPENSES_FILE = "expenses.json"
 
@@ -11,6 +10,8 @@ def load_expenses():
         return json.load(user_file)
 
 def save_expenses(expenses):
-    with open(EXPENSES_FILE, "w", encoding="utf-8") as user_file:
-        json.dump(expenses, user_file, indent=2, ensure_ascii=False)
-
+    with open(EXPENSES_FILE, "r+", encoding="utf-8") as user_file:
+        data = json.load(user_file)
+        data.append(expenses)
+        user_file.seek(0)
+        user_file.write(json.dumps(data, indent=2, ensure_ascii=False))
