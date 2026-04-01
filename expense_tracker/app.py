@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from storage import load_expenses, save_expenses
+from logic import sum_total
 
 CATEGORIES = [ 
     "Ēdiens", 
@@ -69,6 +70,7 @@ def print_izdevumi(name,index):
         expenses = load_expenses()
         for exp in expenses: #type: ignore
             print(f"{exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
+        print(f"Total sum: {sum_total():.2f}€")
 
 def end_session(name,index):
     if name == True:
