@@ -10,13 +10,45 @@ CATEGORIES = [
     "Iepirkšanās", 
     "Cits", 
 ] 
-
+TODAY = date.today()
+EXPENSES = {
+    "date": "",
+    "category": "",
+    "comment": "",
+    "sum": ""
+}
 def add_izdevums(name,index):
     if name == True:
         print(f"{index}) Pievienot Izdevumu")
         return
     else:
-        print("izdevums pievienots")
+        print(f"Datums (YYYY-MM-DD) {TODAY} > ", end="")
+        EXPENSES["date"] = user_input("time")# type: ignore
+        print("Kategorija:")
+        for index, item in enumerate(CATEGORIES):
+            print(f"{index + 1}) {item}")
+
+        while True:
+            try:
+                print(f"Izēvlies (1-{len(CATEGORIES)}) > ", end="")
+                category_index = user_input("int")
+                EXPENSES["category"] = CATEGORIES[category_index - 1] # type: ignore
+            except IndexError:
+                print("Šī nav opcija")
+                continue
+            else:
+                break
+        print("Komentārs: > ", end="")
+        EXPENSES["comment"] = user_input("no")# type: ignore
+        print("Summa: > ", end="")
+        EXPENSES["sum"] = user_input("float")# type: ignore
+        print(f" {EXPENSES["date"]} | {EXPENSES["category"]} | {EXPENSES["comment"]} | {EXPENSES["sum"]} ") # type: ignore
+        print("Vai vēlies saglabāt datus? (y/n) > ", end="")
+        answer = user_input("bool")
+        if answer == True:
+            save_expenses(EXPENSES)
+        else:
+            exit()
 
 def print_izdevumi(name,index):
     if name == True:
@@ -60,6 +92,7 @@ def user_input(validation):
         elif validation == "time":
             try:
                 user_input = datetime.strptime(input(), "%Y-%m-%d")
+                user_input = str(user_input.date())
             except ValueError:
                 print("Tas nav pareiz laika formāts, lūdzu rasktiet YYYY-MM-DD formātā")
                 continue
