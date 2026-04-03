@@ -1,6 +1,6 @@
 from datetime import date, datetime
 from storage import load_expenses, save_expenses
-from logic import sum_total
+from logic import sum_total, sum_by_category, get_available_months, filter_by_month
 
 CATEGORIES = [ 
     "Ēdiens", 
@@ -79,7 +79,29 @@ def end_session(name,index):
     else:
         exit()
 
-options = [add_izdevums, print_izdevumi, end_session]
+def print_filter_by_month(name,index):
+    if name == True:
+        print(f"{index}) Filtrēt pēc mēneša")
+        return
+    else:
+        pass
+
+def total_by_catogry(name,index):
+    if name == True:
+        print(f"{index}) Parādīt izdevumus")
+        return
+    else:
+        pass
+
+def delete_entry(name,index):
+    if name == True:
+        print(f"{index}) Parādīt izdevumus")
+        return
+    else:
+        pass
+
+
+options = [add_izdevums, print_izdevumi, print_filter_by_month, total_by_catogry, delete_entry, end_session]
 
 def print_options():
     for index, item in enumerate(options):
