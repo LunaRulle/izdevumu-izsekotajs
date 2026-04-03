@@ -1,3 +1,4 @@
+import json 
 from datetime import date, datetime
 from storage import load_expenses, save_expenses
 from logic import sum_total, sum_by_category, get_available_months, filter_by_month
@@ -28,7 +29,7 @@ def add_izdevums(name,index):
 
     else:
         print(f"Datums (YYYY-MM-DD) {TODAY} > ", end="")
-        EXPENSES["date"] = user_input("time")# type: ignore
+        EXPENSES["date"] = str(user_input("time"))# type: ignore
         print("Kategorija:")
 
         for index, item in enumerate(CATEGORIES):
@@ -95,7 +96,8 @@ def total_by_catogry(name,index):
         expenses = load_expenses()
         by_catorgy = sum_by_category(expenses)
         for category, sum in by_catorgy.items():
-            print(f"{"{}"}: {"{}":>10}€".format(category, sum))
+            print(f"{category}: {sum:>10.2f}€")
+        print(json.dumps(by_catorgy, indent=4, sort_keys=True))
 
 def delete_entry(name,index):
     if name == True:
@@ -139,7 +141,7 @@ def user_input(validation):
         elif validation == "time":
             try:
                 user_input = datetime.strptime(input(), "%Y-%m-%d")
-                user_input = str(user_input.date())
+                user_input = user_input.date()
             except ValueError:
                 print("Tas nav pareiz laika formāts, lūdzu rasktiet YYYY-MM-DD formātā")
                 continue
