@@ -65,13 +65,17 @@ def print_izdevumi(name=False,index=False,expenses=None):
         print(f"{index}) Parādīt izdevumus")
         return
     else:
-        print(f"{"Datums":<12}{"Kategorija":<15} {"Apraksts"} {"Summa":>10} ")
+        print(f"Nr. {"Datums":<12}{"Kategorija":<15} {"Apraksts"} {"Summa":>10} ")
         print("-" * 50)
         if expenses == None:
             expenses = load_expenses()
-        for exp in expenses: #type: ignore
-            print(f"{exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
-        print(f"Total sum: {sum_total(expenses):.2f}€")
+        if type(expenses) == dict:
+            print(f"{expenses["date"]:<12} {expenses["category"]:<15} {expenses["comment"]} {expenses["sum"]:>15.2f}€")
+        else:
+            for exp in expenses: #type: ignore
+                index = index + 1
+                print(f"{index}) {exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
+            print(f"Total sum: {sum_total(expenses):.2f}€")
 
 def end_session(name=False,index=False):
     if name == True:
@@ -115,10 +119,31 @@ def total_by_catogry(name=False,index=False):
 
 def delete_entry(name=False,index=False):
     if name == True:
-        print(f"{index}) Parādīt izdevumus")
+        print(f"{index}) Dzēst izdevumu")
         return
     else:
-        pass
+        expenses = load_expenses()
+        print_izdevumi(expenses= expenses)
+        print(f"izvēlaties kuru izdevumu dzēst (1-{len(expenses)}): >", end="") # type: ignore
+        while True:
+            try:
+                user_choice = user_input("int")
+                expenses[user_choice - 1] # type: ignore
+                break
+            except IndexError:
+                print("Šī nav opcija")
+                continue
+        to_delete = expenses[user_choice -1] # type: ignore
+        print_izdevumi(expenses= to_delete)
+        print("Vai tiešām vēlies dzēst šo izdevumu? (y/n): >", end="")
+        user_answer = user_input("bool")
+        if user_answer == True:
+            del expenses[user_choice - 1] # type: ignore
+            print("Tagadējie izdevumi")
+            print_izdevumi(expenses= expenses)
+            save_expenses(expenses)
+        else:
+            exit()
 
 
 options = [add_izdevums, print_izdevumi, print_filter_by_month, total_by_catogry, delete_entry, end_session]
@@ -182,5 +207,4 @@ def main():
             continue
 
 if __name__ == "__main__":
-    print_izdevumi()
     main()
