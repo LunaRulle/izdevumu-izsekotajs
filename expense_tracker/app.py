@@ -60,14 +60,15 @@ def add_izdevums(name,index):
         else:
             exit()
 
-def print_izdevumi(name,index):
+def print_izdevumi(name,index,expenses=None):
     if name == True:
         print(f"{index}) Parādīt izdevumus")
         return
     else:
         print(f"{"Datums":<12}{"Kategorija":<15} {"Apraksts"} {"Summa":>10} ")
         print("-" * 50)
-        expenses = load_expenses()
+        if expenses == None:
+            expenses = load_expenses()
         for exp in expenses: #type: ignore
             print(f"{exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
         print(f"Total sum: {sum_total(expenses):.2f}€")
@@ -84,8 +85,22 @@ def print_filter_by_month(name,index):
         print(f"{index}) Filtrēt pēc mēneša")
         return
     else:
-        pass
-
+        expenses = load_expenses()
+        months = get_available_months(expenses)
+        for month in months:
+            index = index + 1
+            print(f"{index}) {month}")
+        print(f"Izvēlaties mēnesi ko apskatīt (1-{index}) > ", end="")
+        while True:
+            try:
+                user_choice = user_input("int")
+                user_month = datetime.strptime(months[user_choice - 1], "%Y-%m") # type: ignore
+                break
+            except IndexError:
+                print("Šī nav opcija")
+                continue
+        filtered_expenses = filter_by_month(expenses, user_month.year, user_month.month)
+        print_izdevumi(False,0,filtered_expenses)
 def total_by_catogry(name,index):
     if name == True:
         print(f"{index}) Kopsavilkums pa kategorijām")
