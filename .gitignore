@@ -1,2 +1,3 @@
 expenses_tracker/__pycache__/
 expenses_tracker/*.json
+expenses_tracker/*.csv

@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from storage import load_expenses, save_expenses
 from logic import sum_total, sum_by_category, get_available_months, filter_by_month
+from export import export_to_csv
 
 CATEGORIES = [ 
     "Ēdiens", 
@@ -145,8 +146,24 @@ def delete_entry(name=False,index=False):
         else:
             exit()
 
+def export(name=False,index=False):
+    if name == True:
+        print(f"{index}) Eksportēt uz csv")
+        return
+    else:
+        print("Kā jūs vēaties nosaukt failu [izdevumi.csv]: > ", end="")
+        expenses = load_expenses()
+        while True:
+            file_name = user_input("no")
+            if export_to_csv(expenses, file_name) == False: # type: ignore
+                print("Fails jau existē")
+                continue
+            else:
+                print("Dokuments saglabāts")
+                break
 
-options = [add_izdevums, print_izdevumi, print_filter_by_month, total_by_catogry, delete_entry, end_session]
+
+options = [add_izdevums, print_izdevumi, print_filter_by_month, total_by_catogry, delete_entry, export, end_session]
 
 def print_options():
     for index, item in enumerate(options):
