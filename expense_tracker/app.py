@@ -88,10 +88,14 @@ def print_filter_by_month(name,index):
 
 def total_by_catogry(name,index):
     if name == True:
-        print(f"{index}) Parādīt izdevumus")
+        print(f"{index}) Kopsavilkums pa kategorijām")
         return
     else:
-        pass
+        print(f"{"Kategorija":<15} {"Summa":>10}")
+        expenses = load_expenses()
+        by_catorgy = sum_by_category(expenses)
+        for category, sum in by_catorgy.items():
+            print(f"{"{}"}: {"{}":>10}€".format(category, sum))
 
 def delete_entry(name,index):
     if name == True:
