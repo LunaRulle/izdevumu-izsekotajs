@@ -56,7 +56,7 @@ def add_izdevums(name=False,index=False):
         print("Vai vēlies saglabāt datus? (y/n) > ", end="")
         answer = user_input("bool")
         if answer == True:
-            save_expenses(EXPENSES)
+            save_expenses(EXPENSES,True)
         else:
             exit()
 
