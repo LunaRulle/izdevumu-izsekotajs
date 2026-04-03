@@ -21,7 +21,7 @@ EXPENSES = {
     "sum": ""
 }
 
-def add_izdevums(name,index):
+def add_izdevums(name=False,index=False):
     if name == True:
         print(f"{index}) Pievienot Izdevumu")
         return
@@ -60,7 +60,7 @@ def add_izdevums(name,index):
         else:
             exit()
 
-def print_izdevumi(name,index,expenses=None):
+def print_izdevumi(name=False,index=False,expenses=None):
     if name == True:
         print(f"{index}) Parādīt izdevumus")
         return
@@ -73,14 +73,14 @@ def print_izdevumi(name,index,expenses=None):
             print(f"{exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
         print(f"Total sum: {sum_total(expenses):.2f}€")
 
-def end_session(name,index):
+def end_session(name=False,index=False):
     if name == True:
         print(f"{index}) Iziet nosaukums")
         return
     else:
         exit()
 
-def print_filter_by_month(name,index):
+def print_filter_by_month(name=False,index=False):
     if name == True:
         print(f"{index}) Filtrēt pēc mēneša")
         return
@@ -100,8 +100,9 @@ def print_filter_by_month(name,index):
                 print("Šī nav opcija")
                 continue
         filtered_expenses = filter_by_month(expenses, user_month.year, user_month.month)
-        print_izdevumi(False,0,filtered_expenses)
-def total_by_catogry(name,index):
+        print_izdevumi(expenses=filtered_expenses)
+
+def total_by_catogry(name=False,index=False):
     if name == True:
         print(f"{index}) Kopsavilkums pa kategorijām")
         return
@@ -112,7 +113,7 @@ def total_by_catogry(name,index):
         for category, sum in by_catorgy.items():
             print(f"{category}: {sum:>10.2f}€")
 
-def delete_entry(name,index):
+def delete_entry(name=False,index=False):
     if name == True:
         print(f"{index}) Parādīt izdevumus")
         return
@@ -175,10 +176,11 @@ def main():
         print(f"Izvēlaties opciju (1-{len(options)}): > ", end="")
         try:
             user_choice = user_input("int")
-            options[user_choice - 1](False,False) # type: ignore
+            options[user_choice - 1]() # type: ignore
         except IndexError:
             print("Šī nav opcija")
             continue
 
 if __name__ == "__main__":
+    print_izdevumi()
     main()
