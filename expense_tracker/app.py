@@ -1,4 +1,3 @@
-import json 
 from datetime import date, datetime
 from storage import load_expenses, save_expenses
 from logic import sum_total, sum_by_category, get_available_months, filter_by_month
@@ -97,7 +96,6 @@ def total_by_catogry(name,index):
         by_catorgy = sum_by_category(expenses)
         for category, sum in by_catorgy.items():
             print(f"{category}: {sum:>10.2f}€")
-        print(json.dumps(by_catorgy, indent=4, sort_keys=True))
 
 def delete_entry(name,index):
     if name == True:
