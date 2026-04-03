@@ -22,4 +22,11 @@ def get_available_months(expenses):
             months.append(month)
     return months
 
+def filter_by_month(expenses, year, month):
+    filtered_expenses = []
+    for exp in expenses:
+        dates = datetime.strptime(exp["date"], "%Y-%m-%d")
+        if dates.year == year and dates.month == month:
+            filtered_expenses.append(exp)
+    return filtered_expenses
 
