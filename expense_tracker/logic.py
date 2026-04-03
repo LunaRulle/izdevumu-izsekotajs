@@ -1,9 +1,8 @@
-from storage import load_expenses
+from datetime import datetime
 
-def sum_total():
-    data = load_expenses()
+def sum_total(expenses):
     total = 0
-    for exp in data: #type: ignore
+    for exp in expenses: #type: ignore
         total = exp["sum"] + total
     return total
         
