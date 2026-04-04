@@ -58,16 +58,18 @@ def add_izdevums(name=False,index=False):
         answer = user_input("bool")
         if answer == True:
             save_expenses(EXPENSES,True)
+            return_to_menu(add_izdevums)
         else:
-            exit()
-
+            return_to_menu(add_izdevums)
+            
+ 
 def print_izdevumi(name=False,index=False,expenses=None):
     if name == True:
         print(f"{index}) Parādīt izdevumus")
         return
     else:
         print(f"Nr. {"Datums":<12}{"Kategorija":<15} {"Apraksts"} {"Summa":>10} ")
-        print("-" * 50)
+        print("-" * 200)
         if expenses == None:
             expenses = load_expenses()
         if type(expenses) == dict:
@@ -77,6 +79,7 @@ def print_izdevumi(name=False,index=False,expenses=None):
                 index = index + 1
                 print(f"{index}) {exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
             print(f"Total sum: {sum_total(expenses):.2f}€")
+        return_to_menu(print_izdevumi)
 
 def end_session(name=False,index=False):
     if name == True:
@@ -106,6 +109,7 @@ def print_filter_by_month(name=False,index=False):
                 continue
         filtered_expenses = filter_by_month(expenses, user_month.year, user_month.month)
         print_izdevumi(expenses=filtered_expenses)
+        return_to_menu(print_filter_by_month)
 
 def total_by_catogry(name=False,index=False):
     if name == True:
@@ -117,6 +121,7 @@ def total_by_catogry(name=False,index=False):
         by_catorgy = sum_by_category(expenses)
         for category, sum in by_catorgy.items():
             print(f"{category}: {sum:>10.2f}€")
+        return_to_menu(total_by_catogry)
 
 def delete_entry(name=False,index=False):
     if name == True:
@@ -143,8 +148,9 @@ def delete_entry(name=False,index=False):
             print("Tagadējie izdevumi")
             print_izdevumi(expenses= expenses)
             save_expenses(expenses)
+            return_to_menu(delete_entry)
         else:
-            exit()
+            return_to_menu(delete_entry)
 
 def export(name=False,index=False):
     if name == True:
@@ -161,6 +167,7 @@ def export(name=False,index=False):
             else:
                 print("Dokuments saglabāts")
                 break
+        return_to_menu(export)
 
 
 options = [add_izdevums, print_izdevumi, print_filter_by_month, total_by_catogry, delete_entry, export, end_session]
@@ -169,6 +176,32 @@ def print_options():
     for index, item in enumerate(options):
         name = True
         item(name, index + 1)
+
+def main_menu():
+    print("Izdevumu Sekotājs")
+    print("="*200)
+    print_options()
+    while True:
+        print(f"Izvēlaties opciju (1-{len(options)}): > ", end="")
+        try:
+            user_choice = user_input("int")
+            print("-"*200)
+            options[user_choice - 1]() # type: ignore
+        except IndexError:
+            print("Šī nav opcija")
+            continue
+
+def return_to_menu(function):
+    print("-"*200)
+    function(True,"1")
+    print("2) Atgriezties uz sākumu")
+    print(f"Izvēlaties opciju? (1-2) : > ", end="")
+    answer = user_input("int")
+    if answer == 2:
+        main_menu()
+    else:
+        print("-"*200)
+        function()
 
 def user_input(validation):
     while True:
@@ -212,16 +245,8 @@ def main():
             save_expenses([])
         if answer == False:
             exit()
+    main_menu()
 
-    while True:
-        print_options()
-        print(f"Izvēlaties opciju (1-{len(options)}): > ", end="")
-        try:
-            user_choice = user_input("int")
-            options[user_choice - 1]() # type: ignore
-        except IndexError:
-            print("Šī nav opcija")
-            continue
 
 if __name__ == "__main__":
     main()
