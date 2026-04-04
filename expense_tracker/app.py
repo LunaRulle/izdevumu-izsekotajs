@@ -69,7 +69,7 @@ def print_izdevumi(name=False,index=False,expenses=None):
         return
     else:
         print(f"Nr. {"Datums":<12}{"Kategorija":<15} {"Apraksts"} {"Summa":>10} ")
-        print("-" * 200)
+        print("-" * 100)
         if expenses == None:
             expenses = load_expenses()
         if type(expenses) == dict:
@@ -78,7 +78,7 @@ def print_izdevumi(name=False,index=False,expenses=None):
             for exp in expenses: #type: ignore
                 index = index + 1
                 print(f"{index}) {exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
-            print(f"Total sum: {sum_total(expenses):.2f}€")
+            print(f"Kopējā summa: {sum_total(expenses):.2f}€")
         return_to_menu(print_izdevumi)
 
 def end_session(name=False,index=False):
@@ -93,6 +93,7 @@ def print_filter_by_month(name=False,index=False):
         print(f"{index}) Filtrēt pēc mēneša")
         return
     else:
+        print("Pieejamie mēneši:")
         expenses = load_expenses()
         months = get_available_months(expenses)
         for month in months:
@@ -179,20 +180,20 @@ def print_options():
 
 def main_menu():
     print("Izdevumu Sekotājs")
-    print("="*200)
+    print("="*100)
     print_options()
     while True:
         print(f"Izvēlaties opciju (1-{len(options)}): > ", end="")
         try:
             user_choice = user_input("int")
-            print("-"*200)
+            print("-"*100)
             options[user_choice - 1]() # type: ignore
         except IndexError:
             print("Šī nav opcija")
             continue
 
 def return_to_menu(function):
-    print("-"*200)
+    print("-"*100)
     function(True,"1")
     print("2) Atgriezties uz sākumu")
     print(f"Izvēlaties opciju? (1-2) : > ", end="")
@@ -200,7 +201,7 @@ def return_to_menu(function):
     if answer == 2:
         main_menu()
     else:
-        print("-"*200)
+        print("-"*100)
         function()
 
 def user_input(validation):
