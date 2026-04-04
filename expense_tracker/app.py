@@ -28,7 +28,7 @@ def add_izdevums(name=False,index=False):
         return
 
     else:
-        print(f"Datums (YYYY-MM-DD) {TODAY} > ", end="")
+        print(f"Datums (YYYY-MM-DD) {TODAY}: > ", end="")
         EXPENSES["date"] = str(user_input("time"))# type: ignore
         print("Kategorija:")
 
@@ -37,7 +37,7 @@ def add_izdevums(name=False,index=False):
 
         while True:
             try:
-                print(f"Izēvlies (1-{len(CATEGORIES)}) > ", end="")
+                print(f"Izēvlies (1-{len(CATEGORIES)}): > ", end="")
                 category_index = user_input("int")
                 EXPENSES["category"] = CATEGORIES[category_index - 1] # type: ignore
             except IndexError:
@@ -54,7 +54,7 @@ def add_izdevums(name=False,index=False):
 
         print(f" {EXPENSES["date"]} | {EXPENSES["category"]} | {EXPENSES["comment"]} | {EXPENSES["sum"]:8.2f}€ ") # type: ignore
 
-        print("Vai vēlies saglabāt datus? (y/n) > ", end="")
+        print("Vai vēlies saglabāt datus? (y/n): > ", end="")
         answer = user_input("bool")
         if answer == True:
             save_expenses(EXPENSES,True)
@@ -95,7 +95,7 @@ def print_filter_by_month(name=False,index=False):
         for month in months:
             index = index + 1
             print(f"{index}) {month}")
-        print(f"Izvēlaties mēnesi ko apskatīt (1-{index}) > ", end="")
+        print(f"Izvēlaties mēnesi ko apskatīt (1-{index}): > ", end="")
         while True:
             try:
                 user_choice = user_input("int")
@@ -125,7 +125,7 @@ def delete_entry(name=False,index=False):
     else:
         expenses = load_expenses()
         print_izdevumi(expenses= expenses)
-        print(f"izvēlaties kuru izdevumu dzēst (1-{len(expenses)}): >", end="") # type: ignore
+        print(f"izvēlaties kuru izdevumu dzēst (1-{len(expenses)}): > ", end="") # type: ignore
         while True:
             try:
                 user_choice = user_input("int")
@@ -136,7 +136,7 @@ def delete_entry(name=False,index=False):
                 continue
         to_delete = expenses[user_choice -1] # type: ignore
         print_izdevumi(expenses= to_delete)
-        print("Vai tiešām vēlies dzēst šo izdevumu? (y/n): >", end="")
+        print("Vai tiešām vēlies dzēst šo izdevumu? (y/n): > ", end="")
         user_answer = user_input("bool")
         if user_answer == True:
             del expenses[user_choice - 1] # type: ignore
@@ -206,7 +206,7 @@ def user_input(validation):
 
 def main():
     if load_expenses() == False:
-        print(f"Nav atrasts expenses.json, vai vēlies uztaisīt jaunu? (y/n)", end=" ")
+        print(f"Nav atrasts expenses.json, vai vēlies uztaisīt jaunu? (y/n): > ", end="")
         answer = user_input("bool")
         if answer == True:
             save_expenses([])
