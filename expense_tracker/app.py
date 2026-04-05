@@ -63,7 +63,7 @@ def add_izdevums(name=False,index=False):
             return_to_menu(add_izdevums)
             
  
-def print_izdevumi(name=False,index=False,expenses=None):
+def print_izdevumi(name=False,index=False,expenses=None, intermediate= False):
     if name == True:
         print(f"{index}) Parādīt izdevumus")
         return
@@ -79,7 +79,8 @@ def print_izdevumi(name=False,index=False,expenses=None):
                 index = index + 1
                 print(f"{index}) {exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
             print(f"Kopējā summa: {sum_total(expenses):.2f}€")
-        return_to_menu(print_izdevumi)
+            if intermediate == False:
+                return_to_menu(print_izdevumi)
 
 def end_session(name=False,index=False):
     if name == True:
@@ -109,7 +110,7 @@ def print_filter_by_month(name=False,index=False):
                 print("Šī nav opcija")
                 continue
         filtered_expenses = filter_by_month(expenses, user_month.year, user_month.month)
-        print_izdevumi(expenses=filtered_expenses)
+        print_izdevumi(expenses=filtered_expenses, intermediate= True)
         return_to_menu(print_filter_by_month)
 
 def total_by_catogry(name=False,index=False):
@@ -130,7 +131,7 @@ def delete_entry(name=False,index=False):
         return
     else:
         expenses = load_expenses()
-        print_izdevumi(expenses= expenses)
+        print_izdevumi(expenses= expenses, intermediate= True)
         print(f"izvēlaties kuru izdevumu dzēst (1-{len(expenses)}): > ", end="") # type: ignore
         while True:
             try:
