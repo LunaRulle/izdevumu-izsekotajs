@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from storage import load_expenses, save_expenses
+from storage import load_expenses, save_expenses, sort_expenses
 from logic import sum_total, sum_by_category, get_available_months, filter_by_month
 from export import export_to_csv
 
@@ -60,6 +60,8 @@ def add_izdevums(name=False,index=False):
         answer = user_input("bool")
         if answer == True:
             save_expenses(EXPENSES,True)
+            expenses = load_expenses()
+            sort_expenses(expenses)
             return_to_menu(add_izdevums)
         else:
             return_to_menu(add_izdevums)
@@ -153,7 +155,7 @@ def delete_entry(name=False,index=False):
         if user_answer == True:
             del expenses[user_choice - 1] # type: ignore
             print("Tagadējie izdevumi")
-            print_izdevumi(expenses= expenses)
+            print_izdevumi(expenses= expenses, intermediate= True)
             save_expenses(expenses)
             return_to_menu(delete_entry)
         else:

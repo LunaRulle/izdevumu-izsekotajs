@@ -1,5 +1,6 @@
 import json
 import os
+import operator
 
 EXPENSES_FILE = "expenses.json"
 
@@ -20,4 +21,9 @@ def save_expenses(expenses,append=False):
         with open(EXPENSES_FILE, "w", encoding="utf-8") as user_file:
             user_file.seek(0)
             user_file.write(json.dumps(expenses, indent=2, ensure_ascii=False))
+
+def sort_expenses(expenses):
+    with open(EXPENSES_FILE, "w", encoding="utf-8") as user_file:
+        expenses = sorted(expenses, key=operator.itemgetter("date"), reverse= True) #type: ignore
+        user_file.write(json.dumps(expenses, indent=2, ensure_ascii=False))
 
