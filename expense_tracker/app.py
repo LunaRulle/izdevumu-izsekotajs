@@ -52,7 +52,9 @@ def add_izdevums(name=False,index=False):
         print("Summa: > ", end="")
         EXPENSES["sum"] = user_input("float")# type: ignore
 
-        print(f" {EXPENSES["date"]} | {EXPENSES["category"]} | {EXPENSES["comment"]} | {EXPENSES["sum"]:8.2f}€ ") # type: ignore
+        print(f"{"Datums"} | {"Kategorija"} | {"Apraksts"} | {"Summa"} ")
+        print("-"*50)
+        print(f"{EXPENSES["date"]} | {EXPENSES["category"]} | {EXPENSES["comment"]} | {EXPENSES["sum"]:.2f}€ ") # type: ignore
 
         print("Vai vēlies saglabāt datus? (y/n): > ", end="")
         answer = user_input("bool")
@@ -68,17 +70,20 @@ def print_izdevumi(name=False,index=False,expenses=None, intermediate= False):
         print(f"{index}) Parādīt izdevumus")
         return
     else:
-        print(f"Nr. {"Datums":<12}{"Kategorija":<15} {"Apraksts"} {"Summa":>10} ")
+        print(f"Nr.  {"Datums":<12}{"Kategorija":<20} {"Apraksts"} {"Summa":>17} ")
         print("-" * 100)
         if expenses == None:
             expenses = load_expenses()
         if type(expenses) == dict:
-            print(f"{expenses["date"]:<12} {expenses["category"]:<15} {expenses["comment"]} {expenses["sum"]:>15.2f}€")
+            comment_width = 25 - len(expenses["comment"])
+            print(f"1  {expenses["date"]:<12} {expenses["category"]:<20} {expenses["comment"]} {expenses["sum"]:>{comment_width}.2f}€")
         else:
             for exp in expenses: #type: ignore
                 index = index + 1
-                print(f"{index}) {exp["date"]:<12} {exp["category"]:<15} {exp["comment"]} {exp["sum"]:>15.2f}€")
-            print(f"Kopējā summa: {sum_total(expenses):.2f}€")
+                comment_width = 25 - len(exp["comment"])
+                print(f"{index:<3} {exp["date"]:<12} {exp["category"]:<20} {exp["comment"]} {exp["sum"]:>{comment_width}.2f}€")
+            print("-"*100)
+            print(f"Kopējā summa: {sum_total(expenses):>50.2f}€")
             if intermediate == False:
                 return_to_menu(print_izdevumi)
 
