@@ -70,13 +70,13 @@ def print_izdevumi(name=False,index=False,expenses=None, intermediate= False):
         print(f"{index}) Parādīt izdevumus")
         return
     else:
-        print(f"Nr.  {"Datums":<12}{"Kategorija":<20} {"Apraksts"} {"Summa":>17} ")
+        print(f"Nr. {"Datums":<12} {"Kategorija":<20} {"Apraksts"} {"Summa":>17} ")
         print("-" * 100)
         if expenses == None:
             expenses = load_expenses()
         if type(expenses) == dict:
             comment_width = 25 - len(expenses["comment"])
-            print(f"1  {expenses["date"]:<12} {expenses["category"]:<20} {expenses["comment"]} {expenses["sum"]:>{comment_width}.2f}€")
+            print(f"1   {expenses["date"]:<12} {expenses["category"]:<20} {expenses["comment"]} {expenses["sum"]:>{comment_width}.2f}€")
         else:
             for exp in expenses: #type: ignore
                 index = index + 1
@@ -89,7 +89,7 @@ def print_izdevumi(name=False,index=False,expenses=None, intermediate= False):
 
 def end_session(name=False,index=False):
     if name == True:
-        print(f"{index}) Iziet nosaukums")
+        print(f"{index}) Iziet")
         return
     else:
         exit()
